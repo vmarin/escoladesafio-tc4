@@ -1,26 +1,33 @@
 import React, { useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack"; // ✅ Import correto
+import { RootStackParamList } from "../types"; // ✅ Ajuste o caminho conforme a estrutura do seu projeto
+
 import { useAuth } from "../contexts/AuthContext";
-import { View, Text } from "react-native";
+import { View, Text, ActivityIndicator } from "react-native";
 
 type ProtectedRouteProps = {
   children: React.ReactNode;
 };
 
+// Tipando a navegação para garantir que 'navigate("Login")' seja válido
+type NavigationProps = NativeStackNavigationProp<RootStackParamList, "Login">;
+
 export default function ProtectedRoute({ children }: ProtectedRouteProps) {
   const { token, isAuthenticated } = useAuth();
-  const navigation = useNavigation();
+  const navigation = useNavigation<NavigationProps>();
 
   useEffect(() => {
-    if (!isAuthenticated) {
-      navigation.navigate("Login"); // Redireciona para a tela de login
+    if (!isAuthenticated || !token) {
+      navigation.navigate("Login");
     }
-  }, [isAuthenticated, navigation]);
+  }, [isAuthenticated, token, navigation]);
 
-  if (!isAuthenticated) {
+  if (!isAuthenticated || !token) {
     return (
-      <View>
-        <Text>Carregando...</Text> {/* Ou algum outro indicador de loading */}
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <ActivityIndicator size="large" color="#0000ff" />
+        <Text>Carregando...</Text>
       </View>
     );
   }
