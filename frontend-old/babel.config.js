@@ -2,6 +2,7 @@ module.exports = function (api) {
   api.cache(true);
   return {
     presets: ["babel-preset-expo"],
-    plugins: ["expo-router/babel"],
+    // Remova a linha abaixo se existir:
+    // plugins: ['expo-router/babel']
   };
 };

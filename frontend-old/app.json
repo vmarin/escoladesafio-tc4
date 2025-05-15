@@ -8,6 +8,12 @@
     "scheme": "escoladesafiomobile",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
+    "extra": {
+      "router": {
+        "appDir": "./app",
+        "origin": false
+      }
+    },
     "ios": {
       "supportsTablet": true
     },
